@@ -5,10 +5,14 @@ const listaContatos = contatos.contatos['whats-users']
 const DadosUsuários = function(number){
     let numberUser = number
     let informacoesUsuario = {id: '', account: '', start: '', end: '', number: ''}
-    
+    let status = false
 
     listaContatos.forEach(function(usuarios){
+        console.log(usuarios.number)
+        console.log(`NumberUse --> ${numberUser}`)
+
         if(numberUser == usuarios.number){
+            status = true
             informacoesUsuario.id = usuarios.id
             informacoesUsuario.account = usuarios.account
             informacoesUsuario.start = usuarios['created-since'].start
@@ -19,7 +23,13 @@ const DadosUsuários = function(number){
         
     })
 
-    return informacoesUsuario
+    if(status){
+        return informacoesUsuario
+    }else{
+        return false
+    }
+
+    
 }
 
 //console.log(DadosUsuários('11955577796'))
@@ -80,158 +90,67 @@ const DadosConversa = function(number){
     return lista
 }
 
-console.log(DadosContato('11955577796'))
+//console.log(DadosConversa('11955577796'))
 
-// const MatriculaAlunos = function(matricula){
-//         let entradaMatricula = String(matricula).toUpperCase()
-//         let informacoesAluno = {nome: '', foto: '', matricula:'', sexo: ''}
-    
-//         listaAlunos.forEach(function(dadosMatricula){
-//             if (String(dadosMatricula.matricula).toUpperCase() == entradaMatricula){
-//                 informacoesAluno.nome = dadosMatricula.nome
-//                 informacoesAluno.foto = dadosMatricula.foto
-//                 informacoesAluno.matricula = dadosMatricula.matricula
-//                 informacoesAluno.sexo = dadosMatricula.sexo
-    
+
+
+const getContatosUsuarios = function(number, Contato) {
+    let numberUser = number
+    let dados = {number: number, messages: [] }
+    let status = false
+
+    listaContatos.forEach(function(user) {
+        if (numberUser == dados.number) {
+            user.contacts.forEach(function(contatos) {
+                if (contatos.name == Contato) {
+                    dados.messages = contatos.messages;
+                    status = true
+                }
+            });
+        }
+    });
+
+    return dados;
+}
+
+
+//console.log(getContatosUsuarios('11955577796' , 'Ana Maria'));
+
+
+const getPalavraChave = function(number, contato, PalavraChave){
+    let numberUser = number;
+    let dad0s = {number: numberUser, messages: [] };
+    let status = false
+
+    listaContatos.forEach(function(dados){
+        if (numberUser == dados.number){
+            dados.contacts.forEach(function(contact){
+                if (contact.name == contato){
+                    contact.messages.forEach(function(message){
+                        if (message.content.includes(PalavraChave)){
+                            dad0s.messages.push(message.content)
+                            status = true
+                        }
+                    })
+                }
+                
+            })
             
-//             }
-//         })
+        }
+    })
+    return status ? dad0s : status
+}
+
+//console.log(getPalavraChave('11987876567', 'Ana Maria', 'you' ))
+        
     
-//         return informacoesAluno
-//     } 
-
-
-//console.log(ListaDeCursos())
-
-
-// const AlunosMatriculados = function(){
-//     let dadosAlunos = { aluno: listaAlunos}
-//     return dadosAlunos
-// }
-
-// //console.log(AlunosMatriculados())
-
-
-// const MatriculaAlunos = function(matricula){
-//     let entradaMatricula = String(matricula).toUpperCase()
-//     let informacoesAluno = {nome: '', foto: '', matricula:'', sexo: ''}
-
-//     listaAlunos.forEach(function(dadosMatricula){
-//         if (String(dadosMatricula.matricula).toUpperCase() == entradaMatricula){
-//             informacoesAluno.nome = dadosMatricula.nome
-//             informacoesAluno.foto = dadosMatricula.foto
-//             informacoesAluno.matricula = dadosMatricula.matricula
-//             informacoesAluno.sexo = dadosMatricula.sexo
-
-        
-//         }
-//     })
-
-//     return informacoesAluno
-// } 
-
-// //console.log(MatriculaAlunos('20151001004'))
-
-
-// const AlunosCurso = function(curso){
-//     let entradaMatricula = String(curso).toUpperCase()
-//     let informacoesCurso = {nomeAluno: [], curso: entradaMatricula}
-
-//     listaAlunos.forEach(function(dadosMatricula){
-//       dadosMatricula.curso.forEach(function(informacoes){
-//         if(String(informacoes.sigla).toUpperCase() == entradaMatricula){
-//             informacoesCurso.nomeAluno.push(dadosMatricula)
-//         }
-//       })
-//     })
-//     return informacoesCurso
-// }
-
-// //console.log(AlunosCurso('DS'))
-
-// const StatusAlunos =  function(status){
-//     let entradaMatricula = String(status).toUpperCase()
-//     let statusinformacoes = {nomeAluno: [], curso: entradaMatricula}
-
-//     listaAlunos.forEach(function(dados){
-//         if(entradaMatricula = dados.status){
-//             statusinformacoes.nomeAluno.push(dados)
-//         }
-        
-
-        
-//     })
-
-//     return statusinformacoes
-// }
-// //console.log(StatusAlunos('Cursando'))
-
-
-// const StatusAlunosCurso = function(status, nomeCurso){
-//     let entradaMatricula = String(status).toUpperCase()
-//     let nome = String(nomeCurso).toUpperCase()
-//     let statusinformacoes = {nomeAluno: [], curso: nome}
-
-
-//     listaAlunos.forEach(function(dados){
-
-//         dados.curso.forEach(function(cursos){
-//             if(cursos.sigla == nomeCurso){
-//                 cursos.disciplinas.forEach(function(disciplina){
-//                     if(String(disciplina.status).toUpperCase() == entradaMatricula){
-//                         statusinformacoes.nomeAluno.push(dados)
-//                     } 
-//                 })
-//             }
-//         })
-//     })
-//     return statusinformacoes
-
-    
-// }
-
-
-// console.log(StatusAlunosCurso('Reprovado', 'RDS'))
-
-
-// const AnoConclusao = function(curso, ano){
-//     let entradaMatricula = String(curso).toUpperCase()
-//     let statusinformacoes = {nomeAluno: [], curso: entradaMatricula}
-
-//     listaAlunos.forEach(function(dados){
-//         dados.curso.forEach(function(cursos){
-//             if(cursos.sigla == entradaMatricula){
-//                 if(cursos.conclusao == ano){
-//                     statusinformacoes.nomeAluno.push(dados)
-//                 }
-//             }
-//         })
-//     })
-//     return statusinformacoes
-
-// }
-
-// //console.log(AnoConclusao('DS', '2022'))
-
-
-// const StatusFiltro = function(statusA, statusAC, nomeCurso, Ano){
-//     let filtrar = false
-//     if(statusA){
-//         filtrar = StatusAlunos(statusA)
-//     }else if(nomeCurso && statusAC && !Ano){
-//         filtrar = StatusAlunosCurso(statusAC, nomeCurso)
-//     }else if(Ano && nomeCurso && !statusAC){
-//         filtrar = AnoConclusao(nomeCurso, Ano)
-//     }
-
-//     return filtrar
-// }
-
-// console.log(StatusFiltro("Finalizado","","",""));
 
 
 module.exports = {
     DadosUsuários,
     DadosConta,
-    DadosContato
+    DadosContato,
+    DadosConversa,
+    getContatosUsuarios, 
+    getPalavraChave
 }
