@@ -20,9 +20,12 @@ app.use((request, response, next)=>{
 
 })
 
+// 11955577796
 
-app.get('/v1/whatsaap/dadosusuarios', cors(), async function (request, response){
-    let dados = contatos.DadosUsuários()
+
+app.get('/v1/whatsapp/dadospessoais/filtro/:number', cors(), async function (request, response){
+    let filtro = request.params.number
+    let dados = contatos.DadosUsuários(filtro)
     if(dados){
         response.status(200) 
         response.json(dados)
@@ -33,73 +36,84 @@ app.get('/v1/whatsaap/dadosusuarios', cors(), async function (request, response)
 
 })
 
-// app.get('/v1/lion-school/alunos', cors(), async function (request, response){
-//     let dados = cursos.AlunosMatriculados()
-//     if(dados){
-//         response.status(200) 
-//         response.json(dados)
-//     }else{
-//         response.status(404)
-//         response.json({'status': 404, 'message': 'Não foi possível localizar nenhum curso'})
-//     }
-
-// })
-
-// app.get('/v1/lion-school/alunos/filtro/', cors(), async function(request, response){
-//     let statusA = request.query.statusA
-//     let nome = request.query.nomes
-//     let statusD = request.query.statusD
-//     let AnoC = request.query.AnoC
-    
-//     let dados = cursos.StatusFiltro(statusA,statusD,nome,AnoC)
-
-//     console.log(statusA);
-//     console.log(nome);
-//     console.log(statusD);
-//     console.log(AnoC);
-    
-//     if(dados){
-//         response.status(200) 
-//         response.json(dados)
-//     }else{
-//         response.status(404)
-//         response.json({'status': 404, 'message': 'Não foi possível localizar nenhum curso'})
-//     }
-
-// })
-
-   
-// app.get('/v1/lion-school/alunos/:matricula', cors(), async function(request, response){
-//     let uf = request.params.matricula
-//     let dados = cursos.MatriculaAlunos(uf)
-//     if(dados){
-//         response.status(200) 
-//         response.json(dados)
-//     }else{
-//         response.status(404)
-//         response.json({'status': 404, 'message': 'Não foi possível localizar nenhum curso'})
-//     }
 
 
-// })
-
-// app.get('/v1/lion-school/alunos/cursos/:ds', cors(), async function(request,response){
-//     let uf = request.params.ds
-//     let dados = cursos.AlunosCurso(uf)
-//     if(dados){
-//         response.status(200) 
-//         response.json(dados)
-//     }else{
-//         response.status(404)
-//         response.json({'status': 404, 'message': 'Não foi possível localizar nenhum curso'})
-//     }
 
 
-// })
+
+app.get('/v1/whatsapp/dados/filtro/:number', cors(), async function (request, response){
+    let filtro = request.params.number
+    let dados = contatos.DadosConta(filtro)
+    if(dados){
+        response.status(200) 
+        response.json(dados)
+    }else{
+        response.status(404)
+        response.json({'status': 404, 'message': 'Não foi possível localizar nenhum usuário'})
+    }
+
+})
 
 
-    
-    
-    
-   
 
+app.get('/v1/whatsapp/dadoscontato/filtro/:number', cors(), async function (request, response){
+    let filtro = request.params.number
+    let dados = contatos.DadosContato(filtro)
+    if(dados){
+        response.status(200) 
+        response.json(dados)
+    }else{
+        response.status(404)
+        response.json({'status': 404, 'message': 'Não foi possível localizar nenhum usuário'})
+    }
+
+})
+
+
+
+app.get('/v1/whatsapp/dadosconversa/filtro/:number', cors(), async function (request, response){
+    let filtro = request.params.number
+    let dados = contatos.DadosConversa(filtro)
+    if(dados){
+        response.status(200) 
+        response.json(dados)
+    }else{
+        response.status(404)
+        response.json({'status': 404, 'message': 'Não foi possível localizar nenhum usuário'})
+    }
+
+})
+
+
+app.get('/v1/whatsapp/conversas/filtro/', cors(), async function (request, response){
+    let filtro = request.query.number
+    let name = request.query.name
+    let dados = contatos.getContatosUsuarios(filtro, name)
+    if(dados){
+        response.status(200) 
+        response.json(dados)
+    }else{
+        response.status(404)
+        response.json({'status': 404, 'message': 'Não foi possível localizar nenhum usuário'})
+    }
+
+})
+
+app.get('/v1/whatsapp/chave/number/', cors(), async function (request, response){
+    let filtro = request.query.number
+    let name = request.query.name
+    let chave = request.query.chave
+    let dados = contatos.getPalavraChave(filtro, name, chave)
+    if(dados){
+        response.status(200) 
+        response.json(dados)
+    }else{
+        response.status(404)
+        response.json({'status': 404, 'message': 'Não foi possível localizar nenhum usuário'})
+    }
+
+})
+
+app.listen('8080', function(){
+    console.log("API aguardando requisições...")
+})
